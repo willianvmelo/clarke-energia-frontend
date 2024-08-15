@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import InputForm from './components/InputForm';
+import SupplierList from './components/SupplierList';
 
 function App() {
+
+  const [suppliers, setSuppliers] = useState([]);
 
   const fetchSuppliers = (consumption) => {
     const suppliers = [      
@@ -27,7 +30,7 @@ function App() {
 
     const filteredSuppliers = suppliers.filter((supplier)=>consumption > supplier.min_kwh_limit)
 
-    console.log(filteredSuppliers) 
+    setSuppliers(filteredSuppliers) 
     
   };
 
@@ -35,7 +38,7 @@ function App() {
     <div className="App">
       <h1>Escolha o Melhor Fornecedor de Energia</h1>
       <InputForm onSubmit={fetchSuppliers} />
-      
+      <SupplierList suppliers={suppliers} />
     </div>
   );
 }
