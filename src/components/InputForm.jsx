@@ -13,18 +13,23 @@ const InputForm = ({ onSubmit }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Consumo Mensal de Energia (kWh):
-                <input
+        <div className="row justify-content-start mt-4 mb-4">
+            <form className='col-md-6 col-10' onSubmit={handleSubmit}>
+                <div class="input-group">
+                    <input
                     type="number"
                     value={consumption}
                     onChange={(e) => setConsumption(e.target.value)}
                     required
-                />
-            </label>
-            <button type="submit">Enviar</button>
-        </form>
+                    className='form-control'
+                    placeholder="Consumo Mensal de Energia (kWh)"                
+                    />
+                    <button className='btn btn-primary' type="submit" id="searchButton">Buscar</button>
+                </div>
+            
+            </form>
+        </div>
+        
     );
 };
 
