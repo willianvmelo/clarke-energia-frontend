@@ -1,44 +1,34 @@
 import React, {useState} from 'react';
 import InputForm from './components/InputForm';
 import SupplierList from './components/SupplierList';
+import axios from 'axios';
 
 function App() {
 
   const [suppliers, setSuppliers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const fetchSuppliers = (consumption) => {
-    const suppliers = [      
-      {
-        "name": "Fornecedor X",
-        "logo": "url_to_logo",
-        "state": "Estado",
-        "cost_per_kwh": 0.12,
-        "min_kwh_limit": 10000,
-        "total_clients": 200,
-        "average_rating": 4.5
-      },
-      {
-        "name": "Fornecedor Y",
-        "logo": "url_to_logo",
-        "state": "Estado2",
-        "cost_per_kwh": 0.11,
-        "min_kwh_limit": 15000,
-        "total_clients": 100,
-        "average_rating": 3.5
-      }
-    ]
-
-    const filteredSuppliers = suppliers.filter((supplier)=>consumption > supplier.min_kwh_limit)
-
-    setSuppliers(filteredSuppliers) 
+  const fetchSuppliers = async (consumption) => {
+    setLoading(true);
+    try {
+      const response = await axios.post('https://clarke-energia-backend.vercel.app/api/filter-suppliers/', {
+          consumption,
+      });
+      setSuppliers(response.data);
+  } catch (error) {
+      setSuppliers([]);
+      console.error('Erro ao buscar fornecedores:', error);
+  }finally {
+    setLoading(false);
+}
     
   };
 
   return (
-    <div className="App">
-      <h1>Escolha o Melhor Fornecedor de Energia</h1>
+    <div className="container mt-4">
+      <h1 className=''>Encontre o Melhor Fornecedor de Energia para o seu negócio!</h1>
       <InputForm onSubmit={fetchSuppliers} />
-      <SupplierList suppliers={suppliers} />
+      <SupplierList suppliers={suppliers} loading={loading}/>
     </div>
   );
 }

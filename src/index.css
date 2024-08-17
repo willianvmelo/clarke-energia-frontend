@@ -1,1 +1,12 @@
+.card{
+    width: 18rem !important;
+}
 
+.card-img-top{
+height: 15rem;
+}
+
+.card-title{
+    color: #00df7c;
+    font-weight: 400;
+}
